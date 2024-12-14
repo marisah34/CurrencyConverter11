@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- TextView untuk menampilkan data mata uang -->
+        <TextView
+            android:id="@+id/currency_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Currency Data"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- LineChart untuk EUR -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_eur"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- LineChart untuk USD -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_usd"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- LineChart untuk VND -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_vnd"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- LineChart untuk AUD -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_aud"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- LineChart untuk JPY -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_jpy"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- LineChart untuk IDR -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_idr"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+</ScrollView>

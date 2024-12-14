@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#1D87DB" /> <!-- Warna biru -->
+    <corners android:radius="50dp" /> <!-- Membulatkan sudut -->
+</shape>

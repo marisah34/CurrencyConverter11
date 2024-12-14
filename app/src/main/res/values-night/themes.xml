@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CurrencyConverter" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Warna utama untuk mode malam -->
+        <item name="colorPrimary">#1D87DB</item> <!-- Warna biru gelap -->
+        <item name="colorPrimaryVariant">#1D87DB</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <!-- Warna status bar -->
+        <item name="android:statusBarColor">#1D87DB</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

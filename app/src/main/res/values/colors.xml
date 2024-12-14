@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_color">#F0F0F0</color> <!-- Warna latar belakang -->
+    <color name="title_color">#333333</color> <!-- Warna teks judul -->
+    <color name="primary_text">#212121</color> <!-- Warna teks utama -->
+    <color name="hint_text">#757575</color> <!-- Warna hint pada EditText -->
+    <color name="button_text">#FFFFFF</color> <!-- Warna teks pada tombol -->
+    <color name="button_background">#6200EE</color> <!-- Warna latar tombol -->
+    <color name="spinner_background">#FFFFFF</color> <!-- Warna latar spinner -->
+</resources>
