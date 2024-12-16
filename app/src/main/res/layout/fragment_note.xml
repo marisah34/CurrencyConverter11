@@ -1,14 +1,35 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Input untuk catatan baru -->
+    <EditText
+        android:id="@+id/editTextNote"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Note Page"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:hint="Enter your note here"
+        android:padding="8dp"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:lines="4" />
+
+    <!-- Tombol untuk menambah catatan -->
+    <Button
+        android:id="@+id/buttonAddNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Add Note"
+        android:backgroundTint="@color/primary_text"
+        android:textColor="@android:color/white" />
+
+    <!-- RecyclerView untuk menampilkan daftar catatan -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNotes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

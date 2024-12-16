@@ -9,9 +9,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_convert"
+        android:icon="@mipmap/ic_goconvert"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_convert_round"
+        android:roundIcon="@mipmap/ic_goconvert_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CurrencyConverter"
         tools:targetApi="31">
@@ -19,7 +19,9 @@
         <!-- SplashActivity sebagai Launcher Activity -->
         <activity
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,21 +31,31 @@
         <!-- MainActivity -->
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <!-- Aktivitas lainnya -->
         <activity
             android:name=".ChartFragment"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".HistoryFragment"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".NoteFragment"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".CalculatorFragment"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
     </application>
 

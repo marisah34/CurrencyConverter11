@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@android:color/white"
+    android:elevation="2dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Text untuk menampilkan catatan -->
+    <TextView
+        android:id="@+id/textNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Sample Note"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:padding="8dp" />
+
+    <!-- Tombol untuk mengedit -->
+    <ImageButton
+        android:id="@+id/buttonEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_edit"
+        android:contentDescription="Edit Note"
+        android:background="?attr/selectableItemBackground"
+        android:tint="@android:color/holo_blue_light" />
+
+    <!-- Tombol untuk menghapus -->
+    <ImageButton
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="Delete Note"
+        android:background="?attr/selectableItemBackground"
+        android:tint="@android:color/holo_red_light" />
+</LinearLayout>

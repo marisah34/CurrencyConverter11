@@ -1,13 +1,17 @@
 package com.example.currencyconverter
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import com.example.currencyconverter.model.HistoryItem
+import com.example.currencyconverter.viewmodel.HistoryViewModel
+import com.example.currencyconverter.viewmodel.HistoryViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 import org.json.JSONObject
@@ -18,12 +22,20 @@ class MainActivity : AppCompatActivity() {
     private var convertedCurrency = "USD"
     private var currencyRates = mutableMapOf<String, Double>()
 
+    // ViewModel dengan Factory untuk persistensi data menggunakan SharedPreferences
+    private val historyViewModel: HistoryViewModel by viewModels {
+        HistoryViewModelFactory(applicationContext)
+    }
+
     private lateinit var amountInput: EditText
     private lateinit var resultText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Memastikan orientasi tetap vertikal
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         amountInput = findViewById(R.id.amountInput)
         resultText = findViewById(R.id.resultText)
@@ -49,38 +61,37 @@ class MainActivity : AppCompatActivity() {
             swapCurrencies()
         }
 
-        // Menampilkan elemen konversi secara default
+        // Muat fragment default atau simpan status saat rotasi
         if (savedInstanceState == null) {
             showConversionElements()
             bottomNavigationView.selectedItemId = R.id.navigation_convert
         }
 
-        // Handle navigation item clicks
+        // Handle navigasi item
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_note -> {
                     hideConversionElements()
-                    loadFragment(NoteFragment())
+                    loadFragment(NoteFragment(), "NoteFragment")
                 }
 
                 R.id.navigation_calculator -> {
                     hideConversionElements()
-                    loadFragment(CalculatorFragment())
+                    loadFragment(CalculatorFragment(), "CalculatorFragment")
                 }
 
                 R.id.navigation_history -> {
                     hideConversionElements()
-                    loadFragment(HistoryFragment())
+                    loadFragment(HistoryFragment(), "HistoryFragment")
                 }
 
                 R.id.navigation_chart -> {
                     hideConversionElements()
-                    loadFragment(ChartFragment())
+                    loadFragment(ChartFragment(), "ChartFragment")
                 }
 
                 R.id.navigation_convert -> {
-                    // Pastikan elemen konversi muncul kembali
-                    supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    supportFragmentManager.popBackStack(null, 0)
                     showConversionElements()
                 }
             }
@@ -88,11 +99,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.mainContent, fragment)
-            .addToBackStack(null) // Tambahkan fragment ke backstack
-            .commit()
+    private fun loadFragment(fragment: Fragment, tag: String) {
+        val existingFragment = supportFragmentManager.findFragmentByTag(tag)
+        if (existingFragment == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.mainContent, fragment, tag)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private fun hideConversionElements() {
@@ -127,6 +141,16 @@ class MainActivity : AppCompatActivity() {
 
             val result = (targetRate / baseRate) * input
             resultText.text = "%.2f $convertedCurrency".format(result)
+
+            // Tambahkan data ke ViewModel
+            val historyItem = HistoryItem(
+                inputAmount = amountInput.text.toString(),
+                fromCurrency = baseCurrency,
+                toCurrency = convertedCurrency,
+                outputAmount = "%.2f".format(result),
+                timestamp = System.currentTimeMillis()
+            )
+            historyViewModel.addHistoryItem(historyItem) // Simpan ke ViewModel dan SharedPreferences
         } catch (e: Exception) {
             Log.e("Conversion", "Error converting: ${e.message}")
         }
@@ -141,10 +165,8 @@ class MainActivity : AppCompatActivity() {
                 val jsonObject = JSONObject(response)
                 val rates = jsonObject.getJSONObject("rates")
 
-                // Daftar mata uang negara yang diinginkan
                 val desiredCurrencies = listOf("EUR", "USD", "VND", "AUD", "JPY", "CAD", "DKK", "SEK", "IDR")
 
-                // Filter data dari API
                 currencyRates.clear()
                 rates.keys().forEach { currency ->
                     if (currency in desiredCurrencies) {
@@ -161,8 +183,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(
                         applicationContext,
                         "Error fetching exchange rates: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -217,6 +238,3 @@ class MainActivity : AppCompatActivity() {
         toSpinner.setSelection((toSpinner.adapter as ArrayAdapter<String>).getPosition(convertedCurrency))
     }
 }
-
-
-//update terakhir

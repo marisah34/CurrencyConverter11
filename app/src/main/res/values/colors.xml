@@ -7,4 +7,7 @@
     <color name="button_text">#FFFFFF</color> <!-- Warna teks pada tombol -->
     <color name="button_background">#6200EE</color> <!-- Warna latar tombol -->
     <color name="spinner_background">#FFFFFF</color> <!-- Warna latar spinner -->
+    <color name="operator_active">#333333</color> <!-- Abu-abu muda -->
+    <color name="operator_default">#FF9500</color> <!-- Oranye -->
+
 </resources>
