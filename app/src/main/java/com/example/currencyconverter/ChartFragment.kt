@@ -1,9 +1,12 @@
 package com.example.currencyconverter
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.LineChart
@@ -16,32 +19,75 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
+import kotlin.random.Random
 
 class ChartFragment : Fragment() {
 
     private lateinit var currencyTextView: TextView
-    private lateinit var lineChartEUR: LineChart
-    private lateinit var lineChartUSD: LineChart
-    private lateinit var lineChartVND: LineChart
-    private lateinit var lineChartAUD: LineChart
-    private lateinit var lineChartJPY: LineChart
-    private lateinit var lineChartIDR: LineChart
+    private lateinit var lineCharts: Map<String, LineChart>
+    private lateinit var searchView: SearchView
+    private val handler = Handler(Looper.getMainLooper())
+    private val refreshInterval: Long = 30_000 // Interval pembaruan (30 detik)
+    private val chartData: MutableMap<String, MutableList<Entry>> = mutableMapOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        requireActivity().title = "Chart"
+
         val view = inflater.inflate(R.layout.fragment_chart, container, false)
         currencyTextView = view.findViewById(R.id.currency_data)
-        lineChartEUR = view.findViewById(R.id.line_chart_eur)
-        lineChartUSD = view.findViewById(R.id.line_chart_usd)
-        lineChartVND = view.findViewById(R.id.line_chart_vnd)
-        lineChartAUD = view.findViewById(R.id.line_chart_aud)
-        lineChartJPY = view.findViewById(R.id.line_chart_jpy)
-        lineChartIDR = view.findViewById(R.id.line_chart_idr)
+        searchView = view.findViewById(R.id.search_view)
 
-        fetchHistoricalData() // Fetch historical data for chart
+        lineCharts = mapOf(
+            "EUR" to view.findViewById(R.id.line_chart_eur),
+            "USD" to view.findViewById(R.id.line_chart_usd),
+            "VND" to view.findViewById(R.id.line_chart_vnd),
+            "AUD" to view.findViewById(R.id.line_chart_aud),
+            "JPY" to view.findViewById(R.id.line_chart_jpy),
+            "CAD" to view.findViewById(R.id.line_chart_cad),
+            "DKK" to view.findViewById(R.id.line_chart_dkk),
+            "SEK" to view.findViewById(R.id.line_chart_sek),
+            "IDR" to view.findViewById(R.id.line_chart_idr),
+            "GBP" to view.findViewById(R.id.line_chart_gbp),
+            "CNY" to view.findViewById(R.id.line_chart_cny),
+            "HKD" to view.findViewById(R.id.line_chart_hkd),
+            "KRW" to view.findViewById(R.id.line_chart_krw),
+            "SGD" to view.findViewById(R.id.line_chart_sgd),
+            "MYR" to view.findViewById(R.id.line_chart_myr),
+            "THB" to view.findViewById(R.id.line_chart_thb),
+            "NZD" to view.findViewById(R.id.line_chart_nzd),
+            "CHF" to view.findViewById(R.id.line_chart_chf)
+        )
+
+        // Inisialisasi data grafik
+        lineCharts.keys.forEach { chartData[it] = mutableListOf() }
+
+        fetchHistoricalData() // Panggilan pertama untuk data
+        scheduleRealTimeUpdates() // Memulai pembaruan otomatis
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                filterCharts(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterCharts(newText)
+                return true
+            }
+        })
+
         return view
+    }
+
+    private fun filterCharts(query: String?) {
+        val filterQuery = query?.toUpperCase() ?: ""
+        lineCharts.keys.forEach { currency ->
+            val lineChart = lineCharts[currency]
+            lineChart?.visibility = if (currency.contains(filterQuery)) View.VISIBLE else View.GONE
+        }
     }
 
     private fun fetchHistoricalData() {
@@ -56,39 +102,27 @@ class ChartFragment : Fragment() {
 
                 val currencyData = StringBuilder()
 
-                // Menyusun data untuk setiap chart
-                val eurEntries = mutableListOf<Entry>()
-                val usdEntries = mutableListOf<Entry>()
-                val vndEntries = mutableListOf<Entry>()
-                val audEntries = mutableListOf<Entry>()
-                val jpyEntries = mutableListOf<Entry>()
-                val idrEntries = mutableListOf<Entry>()
-
-                for ((index, currency) in desiredCurrencies.withIndex()) {
-                    val rate = rates.getString(currency).toFloat()
-                    currencyData.append("$currency: $rate\n")
-
-                    // Menambahkan data untuk setiap grafik
-                    when (currency) {
-                        "EUR" -> eurEntries.add(Entry(index.toFloat(), rate))
-                        "USD" -> usdEntries.add(Entry(index.toFloat(), rate))
-                        "VND" -> vndEntries.add(Entry(index.toFloat(), rate))
-                        "AUD" -> audEntries.add(Entry(index.toFloat(), rate))
-                        "JPY" -> jpyEntries.add(Entry(index.toFloat(), rate))
-                        "IDR" -> idrEntries.add(Entry(index.toFloat(), rate))
-                    }
-                }
-
                 withContext(Dispatchers.Main) {
-                    currencyTextView.text = currencyData.toString()
+                    desiredCurrencies.forEach { currency ->
+                        var rate = rates.getString(currency).toFloat()
 
-                    // Update chart untuk setiap mata uang
-                    updateChart(lineChartEUR, eurEntries, "EUR Rates")
-                    updateChart(lineChartUSD, usdEntries, "USD Rates")
-                    updateChart(lineChartVND, vndEntries, "VND Rates")
-                    updateChart(lineChartAUD, audEntries, "AUD Rates")
-                    updateChart(lineChartJPY, jpyEntries, "JPY Rates")
-                    updateChart(lineChartIDR, idrEntries, "IDR Rates")
+                        // Simulasikan fluktuasi acak (misalnya ± 0.02%)
+                        val fluctuation = (Random.nextFloat() * 0.04f - 0.02f)
+                        rate += rate * fluctuation
+
+                        currencyData.append("$currency: $rate\n")
+
+                        val existingEntries = chartData[currency] ?: mutableListOf()
+                        val nextIndex = if (existingEntries.isEmpty()) 0f else existingEntries.last().x + 1
+                        existingEntries.add(Entry(nextIndex, rate))
+                        chartData[currency] = existingEntries
+
+                        lineCharts[currency]?.let { lineChart ->
+                            updateChart(lineChart, existingEntries, "$currency Rates")
+                        }
+                    }
+
+                    currencyTextView.text = currencyData.toString()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -100,12 +134,43 @@ class ChartFragment : Fragment() {
     }
 
     private fun updateChart(lineChart: LineChart, entries: MutableList<Entry>, label: String) {
-        val dataSet = LineDataSet(entries, label)
-        dataSet.color = android.graphics.Color.BLUE // Warna garis
-        dataSet.valueTextColor = android.graphics.Color.BLACK // Warna teks label titik
+        val dataSet = LineDataSet(entries, label).apply {
+            color = android.graphics.Color.BLUE
+            valueTextColor = android.graphics.Color.BLACK
+            lineWidth = 2f
+            circleRadius = 4f
+            setDrawCircleHole(false)
+        }
 
-        val lineData = LineData(dataSet)
+        val trendDataSet = LineDataSet(entries.mapIndexed { index, entry ->
+            Entry(entry.x, entries.take(index + 1).averageBy { it.y })
+        }, "Trend Line").apply {
+            color = android.graphics.Color.RED
+            lineWidth = 1.5f
+            circleRadius = 0f
+            setDrawCircles(false)
+        }
+
+        val lineData = LineData(dataSet, trendDataSet)
         lineChart.data = lineData
-        lineChart.invalidate() // Refresh chart
+        lineChart.invalidate()
+    }
+
+    private fun scheduleRealTimeUpdates() {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                fetchHistoricalData()
+                handler.postDelayed(this, refreshInterval)
+            }
+        }, refreshInterval)
+    }
+
+    private fun List<Entry>.averageBy(selector: (Entry) -> Float): Float {
+        return this.map { selector(it) }.average().toFloat()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
     }
 }

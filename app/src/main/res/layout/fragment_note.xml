@@ -1,35 +1,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#EBEBEB">
+
+
+
+
+    <!-- SearchView -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewNotes"
+        android:layout_width="match_parent"
+        android:background="@drawable/rounded_edittext"
+        android:layout_margin="12dp"
+        android:layout_height="40dp"
+        android:textColor="#333333"
+
+        android:queryHint="Search notes??"
+        android:iconifiedByDefault="false"/>
 
     <!-- Input untuk catatan baru -->
     <EditText
         android:id="@+id/editTextNote"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your note here"
-        android:padding="8dp"
+        android:layout_height="200dp"
         android:background="@drawable/rounded_edittext"
+        android:gravity="top|start"
+        android:hint="Enter your note here"
         android:inputType="textMultiLine"
-        android:gravity="top"
-        android:lines="4" />
+        android:lines="4"
+        android:padding="12dp"
+        android:textColor="#333333"
+        android:textSize="14sp" />
 
     <!-- Tombol untuk menambah catatan -->
     <Button
         android:id="@+id/buttonAddNote"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Add Note"
-        android:backgroundTint="@color/primary_text"
-        android:textColor="@android:color/white" />
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        android:padding="8dp"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <!-- RecyclerView untuk menampilkan daftar catatan -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewNotes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 </LinearLayout>
