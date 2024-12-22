@@ -1,3 +1,4 @@
+
 package com.example.currencyconverter
 
 import android.os.Bundle
@@ -91,8 +92,8 @@ class ChartFragment : Fragment() {
     }
 
     private fun fetchHistoricalData() {
-        val API_URL = "https://api.currencyfreaks.com/latest?apikey=a5ddf94800f54361a6d3ad1210b4658c"
-        val desiredCurrencies = listOf("EUR", "USD", "VND", "AUD", "JPY", "IDR")
+        val API_URL = "https://api.currencyfreaks.com/latest?apikey=36ffd78597494721911b6f71cf925b3b"
+        val desiredCurrencies = listOf("EUR", "USD", "VND", "AUD", "JPY", "IDR", "CAD", "DKK", "SEK", "GBP", "CNY", "HKD", "KRW", "SGD", "MYR", "THB", "NZD", "CHF")
 
         CoroutineScope(Dispatchers.IO).launch {
             try {

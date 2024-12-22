@@ -7,19 +7,13 @@
     android:padding="8dp"
     android:background="?android:attr/selectableItemBackground">
 
-    <!-- Gambar bendera -->
-    <ImageView
-        android:id="@+id/flagImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="Flag Image" />
 
     <!-- Detail mata uang -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColor="#000000"
         android:orientation="vertical">
 
         <!-- Nama mata uang -->
@@ -28,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Currency Name"
+            android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -37,8 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Currency Code"
+            android:textColor="#000000"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+         />
     </LinearLayout>
 
     <!-- Nilai tukar -->
@@ -48,7 +44,8 @@
         android:layout_height="wrap_content"
         android:text="Exchange Rate"
         android:textSize="16sp"
+        android:textColor="#000000"
         android:layout_gravity="center_vertical"
         android:textStyle="bold"
-        android:textColor="@android:color/holo_blue_dark" />
+       />
 </LinearLayout>

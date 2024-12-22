@@ -30,12 +30,12 @@ class CurrencyAdapter(
         val currencyName = view.findViewById<TextView>(R.id.currencyName)
         val currencyCode = view.findViewById<TextView>(R.id.currencyCode)
         val currencyRate = view.findViewById<TextView>(R.id.currencyRate)
-        val flagImage = view.findViewById<ImageView>(R.id.flagImage)
+
 
         currencyName.text = currencies[position]
         currencyCode.text = "Code: ${currencies[position].substring(0, 3)}"
         currencyRate.text = rates[position]
-        Glide.with(context).load(flags[position]).into(flagImage)
+
 
         return view
     }

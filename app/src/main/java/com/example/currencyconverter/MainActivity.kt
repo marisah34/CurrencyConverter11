@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.currencyconverter.model.HistoryItem
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private var convertedCurrency = "USD"
     private var currencyRates = mutableMapOf<String, Double>()
 
+
     private val historyViewModel: HistoryViewModel by viewModels {
         HistoryViewModelFactory(applicationContext)
     }
@@ -32,20 +35,37 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fromCurrencySpinner: Spinner
     private lateinit var toCurrencySpinner: Spinner
 
+
+    private lateinit var currencyCard: CardView
+    private lateinit var currencyDataText: TextView
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+
         amountInput = findViewById(R.id.amountInput)
         resultText = findViewById(R.id.resultText)
         fromCurrencySpinner = findViewById(R.id.fromCurrencySpinner)
         toCurrencySpinner = findViewById(R.id.toCurrencySpinner)
 
+        // Inisialisasi CardView dan TextView untuk data mata uang
+        currencyCard = findViewById(R.id.currencyCard) // ID dari CardView
+        currencyDataText = findViewById(R.id.currencyDataText) // ID dari TextView dalam CardView
+
+
+
         val convertButton: Button = findViewById(R.id.convertButton)
         val swapButton: Button = findViewById(R.id.swapButton)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+
+
+
 
         bottomNavigationView.itemIconTintList = null
 
@@ -68,26 +88,44 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.navigation_convert
         }
 
+        @SuppressLint("CutPasteId")
+        fun showCurrencyCard() {
+            findViewById<CardView>(R.id.currencyCard).visibility = View.VISIBLE
+        }
+
+        @SuppressLint("CutPasteId")
+        fun hideCurrencyCard() {
+            findViewById<CardView>(R.id.currencyCard).visibility = View.GONE
+        }
+
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_note -> {
                     hideConversionElements()
+                    hideCurrencyCard()
                     loadFragment(NoteFragment())
+                    true
                 }
 
                 R.id.navigation_calculator -> {
                     hideConversionElements()
+                    hideCurrencyCard()
                     loadFragment(CalculatorFragment())
+                    true
                 }
 
                 R.id.navigation_history -> {
                     hideConversionElements()
+                    hideCurrencyCard()
                     loadFragment(HistoryFragment())
+                    true
                 }
 
                 R.id.navigation_chart -> {
                     hideConversionElements()
+                    hideCurrencyCard()
                     loadFragment(ChartFragment())
+                    true
                 }
 
                 R.id.navigation_convert -> {
@@ -98,11 +136,16 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     showConversionElements()
+                    showCurrencyCard() // Tampilkan CardView
+                    true
                 }
+
+                else -> {false}
             }
-            true
         }
     }
+
+
 
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -144,6 +187,12 @@ class MainActivity : AppCompatActivity() {
             val result = (targetRate / baseRate) * input
             resultText.text = "%.2f $convertedCurrency".format(result)
 
+            // Menampilkan data mata uang di CardView
+            val conversionInfo = "$baseCurrency to $convertedCurrency: %.2f".format(result)
+            currencyCard.visibility = View.VISIBLE
+            currencyDataText.text = conversionInfo
+
+            // Simpan riwayat konversi
             val historyItem = HistoryItem(
                 inputAmount = amountInput.text.toString(),
                 fromCurrency = baseCurrency,
@@ -161,22 +210,32 @@ class MainActivity : AppCompatActivity() {
     private fun fetchExchangeRates() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val API = "https://api.currencyfreaks.com/latest?apikey=a5ddf94800f54361a6d3ad1210b4658c"
+                val API = "https://api.currencyfreaks.com/latest?apikey=93b2ab64663b466982317c74b1f6a3b9"
                 val response = URL(API).readText()
                 val jsonObject = JSONObject(response)
                 val rates = jsonObject.getJSONObject("rates")
 
                 val desiredCurrencies = resources.getStringArray(R.array.currencies).map { it.split(" - ")[0] }
 
+                val dataList = mutableListOf<String>() // Simpan data sebagai daftar string
+
                 currencyRates.clear()
                 rates.keys().forEach { currency ->
                     if (currency in desiredCurrencies) {
-                        currencyRates[currency] = rates.getDouble(currency)
+                        val rate = rates.getDouble(currency)
+                        currencyRates[currency] = rate
+                        dataList.add("$currency: ${"%.6f".format(rate)}") // Tambahkan data ke daftar
                     }
                 }
 
                 withContext(Dispatchers.Main) {
                     updateCurrencySpinners(desiredCurrencies)
+
+                    // Tampilkan data di CardView dan TextView
+                    if (dataList.isNotEmpty()) {
+                        currencyCard.visibility = View.VISIBLE // Tampilkan CardView
+                        currencyDataText.text = dataList.joinToString("\n") // Gabungkan data ke multiline
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("API", "Error fetching rates: ${e.message}")
@@ -190,7 +249,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     // In MainActivity.kt, replace the updateCurrencySpinners function with this:
 
     private fun updateCurrencySpinners(currencies: List<String>) {

@@ -8,6 +8,8 @@
     android:background="#EBEBEB"
     tools:context=".CalculatorFragment">
 
+
+
     <!-- Kalkulator -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/calculator_section"

@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:hint="Search currency..."
         android:padding="12dp"
+        android:textColor="#000000"
+
         android:background="@android:drawable/editbox_background"
         android:layout_marginBottom="8dp"/>
 
@@ -19,10 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:divider="@android:color/darker_gray"
+        android:divider="@color/darker_hint"
         android:dividerHeight="0.5dp"
         android:clickable="true"
         android:focusable="true"
-        android:listSelector="@android:color/darker_gray"/>
+
+        android:textColor="#000000"
+        android:listSelector="@color/primary_text"/>
 
 </LinearLayout>
