@@ -108,7 +108,7 @@
             android:id="@+id/convertButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Go Convert"
+            android:text="Convert"
             android:textColor="#FFFFFF"
             android:backgroundTint="#1B9234"
             android:padding="12dp"
