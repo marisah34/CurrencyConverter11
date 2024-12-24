@@ -36,7 +36,7 @@ class CalculatorFragment : Fragment() {
             R.id.button_4, R.id.button_5, R.id.button_6, R.id.button_7,
             R.id.button_8, R.id.button_9, R.id.button_clear, R.id.button_plus,
             R.id.button_minus, R.id.button_multiply, R.id.button_divide,
-            R.id.button_equals, R.id.button_decimal
+            R.id.button_equals, R.id.button_decimal,R.id.button_sign
         )
 
         buttonIds.forEach { id ->
@@ -64,6 +64,23 @@ class CalculatorFragment : Fragment() {
                 activeOperatorButton = null
                 updateDisplay(viewModel.result)
             }
+
+            R.id.button_sign -> {
+                if (viewModel.currentNumber.isNotEmpty()) {
+                    // Hapus karakter terakhir dari currentNumber
+                    viewModel.currentNumber = viewModel.currentNumber.dropLast(1)
+                }
+
+                // Jika semua angka telah dihapus, set hasil menjadi "0"
+                if (viewModel.currentNumber.isEmpty()) {
+                    viewModel.currentNumber = "0"
+                }
+
+                // Perbarui tampilan dengan angka yang diperbarui
+                updateDisplay(viewModel.currentNumber)
+            }
+
+
             R.id.button_plus, R.id.button_minus, R.id.button_multiply, R.id.button_divide -> {
                 // Reset warna tombol operator sebelumnya
                 activeOperatorButton?.setBackgroundColor(resources.getColor(android.R.color.holo_orange_light))
