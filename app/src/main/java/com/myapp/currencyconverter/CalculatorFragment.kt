@@ -1,4 +1,4 @@
-package com.example.currencyconverter
+package com.myapp.currencyconverter
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.currencyconverter.viewmodel.CalculatorViewModel
+import com.myapp.currencyconverter.R
+import com.myapp.currencyconverter.viewmodel.CalculatorViewModel
 
 class CalculatorFragment : Fragment() {
 
@@ -36,7 +37,7 @@ class CalculatorFragment : Fragment() {
             R.id.button_4, R.id.button_5, R.id.button_6, R.id.button_7,
             R.id.button_8, R.id.button_9, R.id.button_clear, R.id.button_plus,
             R.id.button_minus, R.id.button_multiply, R.id.button_divide,
-            R.id.button_equals, R.id.button_decimal,R.id.button_sign
+            R.id.button_equals, R.id.button_decimal, R.id.button_sign
         )
 
         buttonIds.forEach { id ->

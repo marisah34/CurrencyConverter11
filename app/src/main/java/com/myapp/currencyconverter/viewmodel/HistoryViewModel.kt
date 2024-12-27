@@ -1,9 +1,9 @@
-package com.example.currencyconverter.viewmodel
+package com.myapp.currencyconverter.viewmodel
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.currencyconverter.model.HistoryItem
+import com.myapp.currencyconverter.model.HistoryItem
 
 class HistoryViewModel(private val sharedPreferences: SharedPreferences) : ViewModel() {
     val historyList = MutableLiveData<MutableList<HistoryItem>>(mutableListOf())

@@ -1,4 +1,4 @@
-package com.example.currencyconverter
+package com.myapp.currencyconverter
 
 import android.content.Context
 import android.graphics.Canvas

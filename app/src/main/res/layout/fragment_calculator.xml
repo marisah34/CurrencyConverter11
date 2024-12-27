@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EBEBEB"
-    tools:context=".CalculatorFragment">
+    tools:context="com.myapp.currencyconverter.CalculatorFragment">
 
 
 
@@ -80,7 +80,12 @@
                 android:backgroundTint="#757575"
                 android:text="del"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:padding="0dp"
+                android:includeFontPadding="false"
+                android:ellipsize="none"
+                android:singleLine="true"
+                android:gravity="center" />
 
             <Button
                 android:id="@+id/button_percent"

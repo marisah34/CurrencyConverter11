@@ -1,4 +1,4 @@
-package com.example.currencyconverter
+package com.myapp.currencyconverter
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.currencyconverter.adapter.HistoryAdapter
-import com.example.currencyconverter.viewmodel.HistoryViewModel
-import com.example.currencyconverter.viewmodel.HistoryViewModelFactory
+import com.myapp.currencyconverter.R
+import com.myapp.currencyconverter.adapter.HistoryAdapter
+import com.myapp.currencyconverter.viewmodel.HistoryViewModel
+import com.myapp.currencyconverter.viewmodel.HistoryViewModelFactory
 
 class HistoryFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.example.currencyconverter.model
+package com.myapp.currencyconverter.model
 
 data class HistoryItem(
     val inputAmount: String,

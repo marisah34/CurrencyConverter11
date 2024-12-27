@@ -18,7 +18,7 @@
 
         <!-- SplashActivity sebagai Launcher Activity -->
         <activity
-            android:name=".SplashActivity"
+            android:name="com.myapp.currencyconverter.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize">
@@ -30,29 +30,29 @@
 
         <!-- MainActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name="com.myapp.currencyconverter.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <!-- Aktivitas lainnya -->
         <activity
-            android:name=".ChartFragment"
+            android:name="com.myapp.currencyconverter.ChartFragment"
             android:exported="true"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".HistoryFragment"
+            android:name="com.myapp.currencyconverter.HistoryFragment"
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".NoteFragment"
+            android:name="com.myapp.currencyconverter.NoteFragment"
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".CalculatorFragment"
+            android:name="com.myapp.currencyconverter.CalculatorFragment"
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />

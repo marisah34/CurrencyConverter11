@@ -1,4 +1,4 @@
-package com.example.currencyconverter
+package com.myapp.currencyconverter
 
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.currencyconverter.model.HistoryItem
-import com.example.currencyconverter.viewmodel.HistoryViewModel
-import com.example.currencyconverter.viewmodel.HistoryViewModelFactory
+import com.myapp.currencyconverter.R
+import com.myapp.currencyconverter.model.HistoryItem
+import com.myapp.currencyconverter.viewmodel.HistoryViewModel
+import com.myapp.currencyconverter.viewmodel.HistoryViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 import org.json.JSONObject

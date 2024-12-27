@@ -1,4 +1,4 @@
-package com.example.currencyconverter
+package com.myapp.currencyconverter
 
 import android.app.Dialog
 import android.content.Context
@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.myapp.currencyconverter.R
 
 class CustomSearchableSpinner(
     private val context: Context,

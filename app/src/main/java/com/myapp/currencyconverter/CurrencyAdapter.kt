@@ -1,13 +1,12 @@
-package com.example.currencyconverter
+package com.myapp.currencyconverter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
+import com.myapp.currencyconverter.R
 
 class CurrencyAdapter(
     context: Context,
